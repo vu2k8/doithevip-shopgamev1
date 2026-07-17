@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>502 Bad Gateway</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css"/>
+    <style>
+        :root {
+            --font-theme: "Roboto", Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            font-family: var(--font-theme);
+            background: #fff;
+        }
+
+        .page_502 {
+            padding: 40px 0;
+        }
+
+        .page_502 img {
+            width: 100%;
+        }
+
+        .bad_gateway_bg {
+            background-image: url(https://cdn.dribbble.com/users/285475/screenshots/2083086/dribbble_1.gif);
+            height: 400px;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        .bad_gateway_bg h1 {
+            font-size: 80px;
+        }
+
+        .bad_gateway_bg h3 {
+            font-size: 40px;
+        }
+
+        .link_502 {
+            color: #fff !important;
+            padding: 10px 20px;
+            background: #e74c3c;
+            margin: 20px 0;
+            display: inline-block;
+            border-radius: 6px;
+            transition: 0.3s;
+        }
+
+        .link_502:hover {
+            background: #c0392b;
+        }
+
+        .contant_box_502 {
+            margin-top: -50px;
+        }
+    </style>
+</head>
+<body>
+    <section class="page_502">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="col-sm-10 col-sm-offset-1 text-center">
+                        <div class="bad_gateway_bg">
+                            <h1 class="text-center">502</h1>
+                        </div>
+                        <div class="contant_box_502">
+                            <h3 class="h2">Lỗi kết nối máy chủ</h3>
+                            <p>Máy chủ phản hồi không hợp lệ hoặc tạm thời quá tải. Vui lòng thử lại sau.</p>
+                            <a href="/" class="link_502">Tải lại trang</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+</html>

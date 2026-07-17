@@ -1,0 +1,19 @@
+{
+    "require": {
+        "vlucas/phpdotenv": "^5.6",
+        "phpmailer/phpmailer": "6.9",
+        "google/apiclient": "2.15",
+        "pragmarx/google2fa-qrcode": "3.0",
+        "pusher/pusher-php-server": "7.2",
+        "robthree/twofactorauth": "3.0",
+        "endroid/qr-code": "5",
+        "defuse/php-encryption": "^2.4",
+        "spomky-labs/otphp": "^11.3",
+        "paragonie/random_compat": "^9.99",
+        "symfony/security-core": "^7.3",
+        "vlucas/valitron": "^1.4",
+        "ezyang/htmlpurifier": "^4.18",
+        "league/oauth2-client": "^2.8",
+        "league/oauth2-facebook": "^2.2"
+    }
+}

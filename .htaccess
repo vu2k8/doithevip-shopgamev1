@@ -1,0 +1,202 @@
+RewriteEngine On
+<Files .env>
+    Order allow,deny
+    Deny from all
+</Files>
+<IfModule mod_rewrite.c>
+    <IfModule mod_negotiation.c>
+        Options -MultiViews -Indexes
+    </IfModule>
+</IfModule>
+
+RewriteCond %{THE_REQUEST} \.php [NC]
+RewriteCond %{REQUEST_URI} !^/api/  [NC]
+RewriteCond %{REQUEST_URI} !^/test/  [NC]
+RewriteRule \.php$ - [F]
+
+
+# =========================
+# ⚠️ Error Pages
+# =========================
+
+ErrorDocument 404 /view/error_pages/404.html
+ErrorDocument 502 /view/error_pages/502.html
+
+# =========================
+# 📩 Template
+# =========================
+
+RewriteRule ^mail/notification$ libs/mails/notification.php [L]
+
+# =========================
+# 🔗 API
+# =========================
+
+RewriteRule ^api/([^/]+)/([^/]+)$ api/app.php?type=$1&action=$2 [L,QSA]
+
+# =========================
+# ⚡ Ajax Endpoints
+# =========================
+
+# Account
+RewriteRule ^ajax/register$ ajaxs/client/account/auth/register.php [L]
+RewriteRule ^ajax/login$ ajaxs/client/account/auth/login.php [L]
+RewriteRule ^ajax/login/verify$ ajaxs/client/account/auth/verify.php [L]
+RewriteRule ^ajax/logout$ ajaxs/client/account/auth/logout.php [L]
+RewriteRule ^ajax/password/reset$ ajaxs/client/account/password/reset.php [L]
+RewriteRule ^ajax/password/verify$ ajaxs/client/account/password/verify.php [L]
+RewriteRule ^ajax/profile/edit$ ajaxs/client/account/edit-profile.php [L]
+RewriteRule ^ajax/security/action$ ajaxs/client/account/security.php [L]
+RewriteRule ^ajax/change-password$ ajaxs/client/account/change-password.php [L]
+
+RewriteRule ^ajax/invoice$ ajaxs/client/action/invoice.php [L]
+RewriteRule ^ajax/modal/action$ ajaxs/client/modal/action.php [L]
+RewriteRule ^ajax/merchant$ ajaxs/client/action/merchant.php [L]
+RewriteRule ^ajax/action/get-list-account$ ajaxs/client/action/get-list-account.php [L]
+RewriteRule ^ajax/action/check-coupon$ ajaxs/client/action/check-coupon.php [L]
+
+# Admin - Management actions
+RewriteRule ^ajax/admin/status$ ajaxs/admin/status.php [L]
+RewriteRule ^ajax/admin/sort-order$ ajaxs/admin/sort-order.php [L]
+RewriteRule ^ajax/admin/remove$ ajaxs/admin/remove.php [L]
+RewriteRule ^ajax/admin/refund$ ajaxs/admin/refund.php [L]
+RewriteRule ^ajax/admin/account/action$ ajaxs/admin/service/account/action-server.php [L]
+RewriteRule ^ajax/admin/account/data-service$ ajaxs/admin/service/account/data-service.php [L]
+RewriteRule ^ajax/admin/modules/flash-sale$ ajaxs/admin/modules/flash-sale.php [L]
+RewriteRule ^ajax/action/modal-view$ ajaxs/admin/action/modal-view.php [L]
+RewriteRule ^ajax/action/the-cao$ ajaxs/admin/action/the-cao.php [L]
+# =========================
+# 👤 Client Pages
+# =========================
+
+# Account
+RewriteRule ^account/register$ view/client/account/auth/register.php [L]
+RewriteRule ^account/login$ view/client/account/auth/login.php [L]
+RewriteRule ^account/google$ view/client/account/auth/social/google.php [L]
+RewriteRule ^account/google-callback$ view/client/account/auth/social/callback/google-callback.php [L]
+RewriteRule ^account/facebook$ view/client/account/auth/social/facebook.php [L]
+RewriteRule ^account/facebook-callback$ view/client/account/auth/social/callback/facebook-callback.php [L]
+RewriteRule ^account/facebook-delete-user$ view/client/account/auth/social/delete-user-facebook.php [L]
+RewriteRule ^account/password/reset$ view/client/account/auth/password/reset.php [L]
+RewriteRule ^account/password/verify$ view/client/account/auth/password/verify.php [L,QSA]
+RewriteRule ^account/profile$ view/client/account/profile.php [L]
+RewriteRule ^account/profile/edit/([0-9]+)$ view/client/account/edit-profile.php?id=$1 [L]
+RewriteRule ^account/change-password$ view/client/account/change-password.php [L]
+RewriteRule ^account/security$ view/client/account/security.php [L]
+RewriteRule ^active/security/Email$ view/client/account/security/active/Email.php [L]
+RewriteRule ^active/security/GoogleAuth$ view/client/account/security/active/GoogleAuth.php [L]
+RewriteRule ^disable/security/Email$ view/client/account/security/disable/Email.php [L]
+RewriteRule ^disable/security/GoogleAuth$ view/client/account/security/disable/GoogleAuth.php [L]
+
+# Wallet
+RewriteRule ^wallet/list$ view/client/wallet/list.php [L]
+RewriteRule ^wallet/history$ view/client/wallet/history.php [L]
+RewriteRule ^wallet/history/deposit$ view/client/wallet/history-deposit.php [L]
+
+# Invoice
+RewriteRule ^invoice/([A-Za-z0-9]+)$ view/client/invoice.php?order_code=$1 [L]
+
+# Service
+RewriteRule ^service/account/view/([a-zA-Z0-9-_]+)$ view/client/service/account/account-list.php?slug=$1 [L,QSA]
+RewriteRule ^service/account/view-detail/([a-zA-Z0-9-_]+)$ view/client/service/account/account-view.php?id=$1 [L]
+
+RewriteRule ^service/service/view/([a-zA-Z0-9-_]+)$ view/client/service/service/service-list.php?slug=$1 [L,QSA]
+# Order
+RewriteRule ^order/list$ view/client/order/list.php [L]
+RewriteRule ^order/view/([A-Za-z0-9]+)$ view/client/order/view.php?order_code=$1 [L]
+
+# News
+RewriteRule ^news/all$ view/client/news/all.php [L]
+RewriteRule ^news/view/([A-Za-z0-9-_]+)$ view/client/news/view.php?slug=$1 [L]
+
+# =========================
+# ⏰ Cron Jobs
+# =========================
+
+RewriteRule ^cron/invoice/$ cron/invoice.php [L,QSA]
+RewriteRule ^cron/delivery/$ cron/delivery.php [L,QSA]
+RewriteRule ^cron/expires/$ cron/expires.php [L,QSA]
+RewriteRule ^cron/suspended/$ cron/suspended.php [L,QSA]
+RewriteRule ^cron/jobs/$ cron/cron-jobs.php [L,QSA]
+
+# =========================
+# 🛠️ Install / Migration
+# =========================
+
+RewriteRule ^install$ install.php [L]
+
+# =========================
+# 🛠️ Admin Pages
+# =========================
+
+# Dashboard
+RewriteRule ^admin$ view/admin/home.php [L]
+
+# Service
+RewriteRule ^admin/account/category-list$ view/admin/service/account/category-list.php [L,QSA]
+RewriteRule ^admin/account/category-add$ view/admin/service/account/category-add.php [L,QSA]
+RewriteRule ^admin/account/category-edit/([0-9]+)$ view/admin/service/account/category-edit.php?id=$1 [L,QSA]
+RewriteRule ^admin/account/product-list$ view/admin/service/account/product-list.php [L,QSA]
+RewriteRule ^admin/account/product-add$ view/admin/service/account/product-add.php [L,QSA]
+RewriteRule ^admin/account/product-edit/([0-9]+)$ view/admin/service/account/product-edit.php?id=$1 [L,QSA]
+RewriteRule ^admin/account/nick-list/?$ view/admin/service/account/nick-list.php [L,QSA]
+RewriteRule ^admin/account/nick-list/([0-9]+)$ view/admin/service/account/nick-list.php?id=$1 [L,QSA]
+RewriteRule ^admin/account/nick-add/([0-9]+)$ view/admin/service/account/nick-add.php?id=$1 [L,QSA]
+RewriteRule ^admin/account/nick-edit/([0-9]+)$ view/admin/service/account/nick-edit.php?id=$1 [L,QSA]
+RewriteRule ^admin/account/orders$ view/admin/service/account/order-list.php [L,QSA]
+
+RewriteRule ^admin/service/category-list$ view/admin/service/service/category-list.php [L,QSA]
+RewriteRule ^admin/service/category-add$ view/admin/service/service/category-add.php [L,QSA]
+RewriteRule ^admin/service/category-edit/([0-9]+)$ view/admin/service/service/category-edit.php?id=$1 [L,QSA]
+RewriteRule ^admin/service/product-list$ view/admin/service/service/product-list.php [L,QSA]
+RewriteRule ^admin/service/product-add$ view/admin/service/service/product-add.php [L,QSA]
+RewriteRule ^admin/service/product-edit/([0-9]+)$ view/admin/service/service/product-edit.php?id=$1 [L,QSA]
+RewriteRule ^admin/service/pack-list/?$ view/admin/service/service/pack-list.php [L,QSA]
+RewriteRule ^admin/service/pack-list/([0-9]+)$ view/admin/service/service/pack-list.php?id=$1 [L,QSA]
+RewriteRule ^admin/service/pack-add/([0-9]+)$ view/admin/service/service/pack-add.php?id=$1 [L,QSA]
+RewriteRule ^admin/service/pack-edit/([0-9]+)$ view/admin/service/service/pack-edit.php?id=$1 [L,QSA]
+RewriteRule ^admin/service/orders$ view/admin/service/service/order-list.php [L,QSA]
+RewriteRule ^admin/service/order-view/([A-Za-z0-9]+)$ view/admin/service/service/order-view.php?order_code=$1 [L,QSA]
+# Users
+RewriteRule ^admin/users$ view/admin/account/users.php [L,QSA]
+RewriteRule ^admin/admins$ view/admin/account/admins.php [L,QSA]
+RewriteRule ^admin/users/([A-Za-z0-9]+)/edit$ view/admin/account/edit-user.php?id=$1 [L,QSA]
+
+# History
+RewriteRule ^admin/history/logs$ view/admin/history/logs.php [L,QSA]
+RewriteRule ^admin/history/transaction$ view/admin/history/transaction.php [L,QSA]
+
+# Wallet
+RewriteRule ^admin/wallet/invoices$ view/admin/wallet/invoices.php [L,QSA]
+RewriteRule ^admin/wallet/invoice-view/([A-Za-z0-9]+)$ view/admin/wallet/invoice-view.php?order_code=$1 [L,QSA]
+RewriteRule ^admin/wallet/paygates$ view/admin/wallet/paygates.php [L,QSA]
+RewriteRule ^admin/wallet/inter-wallet-code$ view/admin/wallet/inter-wallet-code.php [L,QSA]
+
+# Tools
+RewriteRule ^admin/tools/seo-onpage$ view/admin/tools/seo-onpage.php [L,QSA]
+RewriteRule ^admin/tools/informations$ view/admin/tools/informations.php [L,QSA]
+RewriteRule ^admin/tools/cron-jobs$ view/admin/tools/cron-jobs.php [L,QSA]
+
+# Modules
+RewriteRule ^admin/modules/menu-list$ view/admin/modules/menu/menu-list.php [L,QSA]
+RewriteRule ^admin/modules/menu-add$ view/admin/modules/menu/menu-add.php [L,QSA]
+RewriteRule ^admin/modules/menu/([A-Za-z0-9]+)/edit$ view/admin/modules/menu/menu-edit.php?id=$1 [L,QSA]
+RewriteRule ^admin/modules/menu-quick-access-list$ view/admin/modules/menu-quick-acces/menu-quick-access-list.php [L,QSA]
+RewriteRule ^admin/modules/menu-quick-access-add$ view/admin/modules/menu-quick-acces/menu-quick-access-add.php [L,QSA]
+RewriteRule ^admin/modules/menu-quick-access/([A-Za-z0-9]+)/edit$ view/admin/modules/menu-quick-acces/menu-quick-access-edit.php?id=$1 [L,QSA]
+RewriteRule ^admin/modules/slider-list$ view/admin/modules/slider/slider-list.php [L,QSA]
+RewriteRule ^admin/modules/slider-add$ view/admin/modules/slider/slider-add.php [L,QSA]
+RewriteRule ^admin/modules/slider/([A-Za-z0-9]+)/edit$ view/admin/modules/slider/slider-edit.php?id=$1 [L,QSA]
+RewriteRule ^admin/modules/coupon-list$ view/admin/modules/coupon/coupon-list.php [L,QSA]
+RewriteRule ^admin/modules/coupon-add$ view/admin/modules/coupon/coupon-add.php [L,QSA]
+RewriteRule ^admin/modules/coupon/([A-Za-z0-9]+)/edit$ view/admin/modules/coupon/coupon-edit.php?id=$1 [L,QSA]
+RewriteRule ^admin/modules/coupon/([A-Za-z0-9]+)/log$ view/admin/modules/coupon/coupon-log.php?id=$1 [L,QSA]
+RewriteRule ^admin/modules/flash-sale-list$ view/admin/modules/flash-sale/flash-sale-list.php [L,QSA]
+RewriteRule ^admin/modules/flash-sale-add/([A-Za-z0-9]+)/product$ view/admin/modules/flash-sale/flash-sale-add-product.php?id=$1 [L,QSA]
+# News
+RewriteRule ^admin/news/new-list$ view/admin/news/new-list.php [L,QSA]
+RewriteRule ^admin/news/new-cats$ view/admin/news/new-cats.php [L,QSA]
+
+# Settings
+RewriteRule ^admin/setting/setting$ view/admin/settings/setting.php [L,QSA]
+RewriteRule ^admin/setting/mail$ view/admin/settings/mail.php [L,QSA]
